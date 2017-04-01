@@ -2,7 +2,7 @@
 
 namespace App\Auth;
 
-use App\Models\Blobel\BlobelUser;
+use App\Models\User;
 use Carbon\Carbon; 
 use Illuminate\Auth\GenericUser; 
 use Illuminate\Support\Facades\Hash;
@@ -22,19 +22,22 @@ public function retrieveById($identifier)
     // TODO: Implement retrieveById() method.
 
 
-    $qry = BlobelUser::whereNull('deleted_at')->where('Userid','=',$identifier);
+    $qry = User::whereNull('deleted_at')->where('id','=',$identifier);
 
     if($qry->count() >0)
     {
-        $user = $qry->select('Userid','UserDNI', 'UserAccountName', 'UserName', 'UserLastName', 'UserPassword', 'Profileid','UserEnabled','UserPriceEnabled', 'created_at')->first();
+        $user = $qry->select('id','empresa_id', 'perfil_id', 'nombre', 'apellido_paterno', 'apellido_materno', 'email','password','habilitado', 'created_at')->first();
 
         $attributes = array(
-            'Userid' => $user->Userid,
-            'UserAccountName' => $user->UserAccountName,
-            'UserPassword' => $user->UserPassword,
-            'UserName' => $user->UserName,
-            'Profileid' => $user->Profileid,
-            'created_at' => $user->created_at,
+            'id' => $user->id,
+            'empresa_id' => $user->empresa_id,
+            'perfil_id' => $user->perfil_id,
+            'nombre' => $user->nombre,
+            'apellido_paterno' => $user->apellido_paterno,
+            'apellido_materno' => $user->apellido_materno,
+            'email' => $user->email,
+            'habilitado' => $user->habilitado,
+            'created_at' => $user->created_at
         );
 
         return $user;
@@ -52,19 +55,22 @@ public function retrieveById($identifier)
 public function retrieveByToken($identifier, $token)
 {
     // TODO: Implement retrieveByToken() method.
-    $qry = BlobelUser::whereNull('deleted_at')->where('Userid','=',$identifier)->where('UserToken','=',$token);
+    $qry = User::whereNull('deleted_at')->where('id','=',$identifier)->where('remember_token','=',$token);
 
     if($qry->count() >0)
     {
-        $user = $qry->select('Userid','UserDNI', 'UserAccountName', 'UserName', 'UserLastName', 'UserPassword', 'Profileid','UserEnabled','UserPriceEnabled', 'created_at')->first();
+        $user = $qry->select('id','empresa_id', 'perfil_id', 'nombre', 'apellido_paterno', 'apellido_materno', 'email','password','habilitado', 'created_at')->first();
 
         $attributes = array(
-            'Userid' => $user->Userid,
-            'UserAccountName' => $user->UserAccountName,
-            'UserPassword' => $user->UserPassword,
-            'UserName' => $user->UserName,
-            'Profileid' => $user->Profileid,
-            'created_at' => $user->created_at,
+            'id' => $user->id,
+            'empresa_id' => $user->empresa_id,
+            'perfil_id' => $user->perfil_id,
+            'nombre' => $user->nombre,
+            'apellido_paterno' => $user->apellido_paterno,
+            'apellido_materno' => $user->apellido_materno,
+            'email' => $user->email,
+            'habilitado' => $user->habilitado,
+            'created_at' => $user->created_at
         );
 
         return $user;
@@ -102,13 +108,10 @@ public function retrieveByCredentials(array $credentials)
 {
     // TODO: Implement retrieveByCredentials() method.
 
-    $qry = BlobelUser::whereNull('deleted_at')->where('UserDNI','=',$credentials['rut']);
+    $qry = User::whereNull('deleted_at')->where('email','=',$credentials['email']);
     if($qry->count() >0)
     {
-        $user = $qry->select('Userid','UserDNI','UserAccountName','UserName','UserLastName','UserPassword', 'Profileid','UserEnabled','UserPriceEnabled' , 'created_at')->first();
-        
-
-
+        $user = $qry->select('id','empresa_id', 'perfil_id', 'nombre', 'apellido_paterno', 'apellido_materno', 'email','password','habilitado', 'created_at')->first();
 
         return $user;
     }
@@ -129,7 +132,7 @@ public function validateCredentials(Authenticatable $user, array $credentials)
     // TODO: Implement validateCredentials() method.
     // we'll assume if a user was retrieved, it's good
 
-    if($user->UserDNI == $credentials['rut'] && Hash::check($credentials['password'],$user->getAuthPassword()))
+    if($user->email == $credentials['email'] && Hash::check($credentials['password'],$user->getAuthPassword()))
     {
 
         //$user->last_login_time = Carbon::now();

@@ -5,12 +5,12 @@ namespace App;
 use Eloquent as Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class User extends Model implements Authenticatable
 {
     use Notifiable;
-    use SoftDeletes
+    use SoftDeletes;
 
     public $table = 'users';
     const CREATED_AT = 'created_at';

@@ -181,7 +181,10 @@ return [
         * Custom Auth Service Provider
         */
         App\Providers\CustomAuthServiceProvider::class,
-
+        /**
+        * Flash messages
+        */
+        Laracasts\Flash\FlashServiceProvider::class,
     ],
 
     /*
