@@ -22,7 +22,7 @@ class CreateFkTables extends Migration
         });
         Schema::table('venta_acciones', function (Blueprint $table) {
             //olvide colocar el id del comprador
-            $table->integer('comprador_id')->after('producto_id');
+            $table->integer('comprador_id')->unsigned()->after('producto_id');
             $table->foreign('empresa_id')->references('id')->on('empresas');
             $table->foreign('producto_id')->references('id')->on('producto_empresas');
             $table->foreign('comprador_id')->references('id')->on('compradores');
