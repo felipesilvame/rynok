@@ -15,8 +15,8 @@ class AddEmpresaCompradorAccionesTable extends Migration
     {
         Schema::create('comprador_acciones_empresas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('comprador_id')->unsigned();
-            $table->string('empresa_id')->unsigned();
+            $table->integer('comprador_id')->unsigned();
+            $table->integer('empresa_id')->unsigned();
             $table->integer('acciones_compradas')->default(0);
             $table->timestamps();
             $table->softDeletes();
