@@ -40,6 +40,6 @@ class Empresa extends Model
     public static $rules = [
         'nombre' => 'required',
         'acciones_disponibles_p_vender' => 'required|numeric',
-        'email' => 'email'
+        'email' => 'nullable|email'
     ];
 }

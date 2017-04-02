@@ -11,7 +11,9 @@
         "laracasts/flash": "^2.0",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "laravelcollective/html": "5.4.*"
+        "laravelcollective/html": "5.4.*",
+        "infyomlabs/laravel-generator": "5.3.x-dev",
+        "infyomlabs/adminlte-templates": "5.3.x-dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

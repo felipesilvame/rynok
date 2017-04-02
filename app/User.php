@@ -58,7 +58,8 @@ class User extends Model implements Authenticatable
         'email' => 'required|email|unique:users,email',
         'perfil_id' => 'required|exists:perfiles,id',
         'apellido_paterno' => 'required',
-        'habilitado' => 'required'
+        'habilitado' => 'required',
+        'password' => 'required|confirmed'
     ];
 
 
@@ -70,6 +71,16 @@ class User extends Model implements Authenticatable
     public function Empresa()
     {
         return $this->belongsTo(\App\Models\Empresa::class,'empresa_id','id');
+    }
+
+    public function isAdmin()
+    {
+        return $this->Perfil->id == 1 ? true : false;
+    }
+
+    public function isEmpresa()
+    {
+        return $this->Empresa->id == 4 ? true : false;
     }
 
         /**

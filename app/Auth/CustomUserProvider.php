@@ -8,6 +8,7 @@ use Illuminate\Auth\GenericUser;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
+use Flash;
 
 class CustomUserProvider implements UserProvider {
 
@@ -134,11 +135,16 @@ public function validateCredentials(Authenticatable $user, array $credentials)
 
     if($user->email == $credentials['email'] && Hash::check($credentials['password'],$user->getAuthPassword()))
     {
-
+        if ($user->habilitado)
+            return true;
+        else{
+            Flash::error('Error, ud. se encuentra deshabilitado. Por favor, contacte al administrador.');
+            return false;
+        }
         //$user->last_login_time = Carbon::now();
         //$user->save();
 
-        return true;
+        
     }
     return false;
 
