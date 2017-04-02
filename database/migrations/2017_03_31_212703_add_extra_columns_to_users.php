@@ -14,8 +14,8 @@ class AddExtraColumnsToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('empresa_id')->nullable()->after('id');
-            $table->integer('perfil_id')->nullable()->after('empresa_id');
+            $table->integer('empresa_id')->nullable()->unsigned()->after('id');
+            $table->integer('perfil_id')->nullable()->unsigned()->after('empresa_id');
             $table->renameColumn('name', 'nombre');
             $table->string('apellido_paterno')->after('name');
             $table->string('apellido_materno')->nullable()->after('apellido_paterno');

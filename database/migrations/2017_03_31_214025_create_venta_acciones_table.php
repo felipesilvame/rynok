@@ -15,8 +15,8 @@ class CreateVentaAccionesTable extends Migration
     {
         Schema::create('venta_acciones', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('empresa_id');
-            $table->integer('producto_id');
+            $table->integer('empresa_id')->unsigned();
+            $table->integer('producto_id')->unsigned();
             $table->string('comprador_rut');
             $table->string('comprador_nombre')->nullable();
             $table->string('comprador_apellido_p')->nullable();

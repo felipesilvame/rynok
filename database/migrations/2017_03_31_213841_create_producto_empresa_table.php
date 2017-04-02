@@ -15,7 +15,7 @@ class CreateProductoEmpresaTable extends Migration
     {
         Schema::create('producto_empresas', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('empresa_id');
+            $table->integer('empresa_id')->unsigned();
             $table->string('descripcion');
             $table->integer('precio')->unsigned();
             $table->timestamps();
