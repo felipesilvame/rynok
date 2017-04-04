@@ -16,6 +16,7 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Redirect;
+use Auth;
 
 class VentaAccionController extends AppBaseController
 {
@@ -36,12 +37,16 @@ class VentaAccionController extends AppBaseController
      * @return Response
      */
     public function index(Request $request)
-    {
-        $this->ventaAccionRepository->pushCriteria(new RequestCriteria($request));
-        $ventaAccions = $this->ventaAccionRepository->all();
+    { 
+        if (Auth::user()->isAdmin()){
+            $this->ventaAccionRepository->pushCriteria(new RequestCriteria($request));
+            $ventaAccions = $this->ventaAccionRepository->all();
 
-        return view('venta_accions.index')
-            ->with('ventaAccions', $ventaAccions);
+            return view('venta_accions.index')
+                ->with('ventaAccions', $ventaAccions);
+        }else{
+            abort(404);
+        }
     }
 
     /**
@@ -89,7 +94,7 @@ class VentaAccionController extends AppBaseController
                 //si tenía acciones de esta empresa anteriormente
                 if ($AccionesComprador->acciones_compradas + $input['cantidad_acciones'] > 100) {
                     //y supera ese limite
-                    return Redirect::back()->withErrors(['Este comprador supera la cantidad máxima de acciones posibles']);
+                    return Redirect::back()->withErrors([sprintf('Este comprador no puede comprar esta cantidad de acciones (Ya ha comprado %d acciones de la empresa %s)', $AccionesComprador->acciones_compradas, $AccionesComprador->Empresa->nombre)]);
                 }
                 else{
                     //si no supera el limite, añadir la suma
@@ -98,14 +103,14 @@ class VentaAccionController extends AppBaseController
             }else{
                 //si nunca antes habia comprado
                 if ($input['cantidad_acciones'] > 100) {
-                    return Redirect::back()->withErrors(['Este comprador supera la cantidad máxima de acciones posibles']);
+                    return Redirect::back()->withErrors(['La cantidad de acciones supera a la máxima posible']);
                 }
             }
 
         } else {
             // user created from 'new'; does not exist in database.
             if ($input['cantidad_acciones'] > 100) {
-                    return Redirect::back()->withErrors(['Este comprador supera la cantidad máxima de acciones posibles']);
+                    return Redirect::back()->withErrors(['La cantidad de acciones supera a la máxima posible']);
                 }
                 //actualiza los datos en caso de...
                 $Comprador->nombre = $input['comprador_nombre'];
@@ -127,7 +132,7 @@ class VentaAccionController extends AppBaseController
         //verificar que la empresa tenga las suficientes acciones para vender
         $Empresa = Empresa::findOrFail((integer)$input['empresa_id']);
         if ($Empresa->acciones_disponibles_p_vender - $input['cantidad_acciones'] < 0) {
-            return Redirect::back()->withErrors(['La empresa no tiene la cantidad suficiente de acciones para vender']);
+            return Redirect::back()->withErrors([sprintf('La empresa no tiene la cantidad suficiente de acciones para vender (Le quedan %d acciones a la empresa %s)', $Empresa->acciones_disponibles_p_vender, $Empresa->nombre)]);
         }
 
         //TODO LISTO! las acciones no superan el limite por persona, y la empresa tiene las acciones para realizar la venta
@@ -165,10 +170,30 @@ class VentaAccionController extends AppBaseController
 
         $Comprador->save();
 
-        Flash::success('Venta Accion saved successfully.');
+        Flash::success('Venta registrada correctamente');
 
-        return redirect(route('ventaAccions.index'));
+        return redirect(route('verVenta', $ventaAccion->id));
     }
+
+     /**
+     * Display the specified VentaAccion.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function view($id)
+    {
+        $ventaAccion = $this->ventaAccionRepository->findWithoutFail($id);
+
+        if (empty($ventaAccion)) {
+            Flash::error('Venta Accion not found');
+
+            return redirect(route('ventaAccions.index'));
+        }
+
+        return view('venta_accions.show')->with('ventaAccion', $ventaAccion);
+    }   
 
     /**
      * Display the specified VentaAccion.
@@ -199,15 +224,20 @@ class VentaAccionController extends AppBaseController
      */
     public function edit($id)
     {
-        $ventaAccion = $this->ventaAccionRepository->findWithoutFail($id);
+        if (Auth::user()->isAdmin()){
+            $ventaAccion = $this->ventaAccionRepository->findWithoutFail($id);
+            $Regiones = Region::whereNull('deleted_at')->pluck('region_nombre', 'region_cardinal')->all();
 
-        if (empty($ventaAccion)) {
-            Flash::error('Venta Accion not found');
+            if (empty($ventaAccion)) {
+                Flash::error('Venta Accion not found');
 
-            return redirect(route('ventaAccions.index'));
+                return redirect(route('ventaAccions.index'));
+            }
+
+            return view('venta_accions.edit')->with(compact('ventaAccion','Regiones'));
+        }else{
+            abort(404);
         }
-
-        return view('venta_accions.edit')->with('ventaAccion', $ventaAccion);
     }
 
     /**
@@ -220,19 +250,23 @@ class VentaAccionController extends AppBaseController
      */
     public function update($id, UpdateVentaAccionRequest $request)
     {
-        $ventaAccion = $this->ventaAccionRepository->findWithoutFail($id);
+        if (Auth::user()->isAdmin()){
+            $ventaAccion = $this->ventaAccionRepository->findWithoutFail($id);
 
-        if (empty($ventaAccion)) {
-            Flash::error('Venta Accion not found');
+            if (empty($ventaAccion)) {
+                Flash::error('Venta Accion not found');
+
+                return redirect(route('ventaAccions.index'));
+            }
+
+            $ventaAccion = $this->ventaAccionRepository->update($request->all(), $id);
+
+            Flash::success('Venta Accion updated successfully.');
 
             return redirect(route('ventaAccions.index'));
+        }else{
+            abort(404);
         }
-
-        $ventaAccion = $this->ventaAccionRepository->update($request->all(), $id);
-
-        Flash::success('Venta Accion updated successfully.');
-
-        return redirect(route('ventaAccions.index'));
     }
 
     /**
@@ -244,18 +278,22 @@ class VentaAccionController extends AppBaseController
      */
     public function destroy($id)
     {
-        $ventaAccion = $this->ventaAccionRepository->findWithoutFail($id);
+        if (Auth::user()->isAdmin()){
+            $ventaAccion = $this->ventaAccionRepository->findWithoutFail($id);
 
-        if (empty($ventaAccion)) {
-            Flash::error('Venta Accion not found');
+            if (empty($ventaAccion)) {
+                Flash::error('Venta Accion not found');
+
+                return redirect(route('ventaAccions.index'));
+            }
+
+            $this->ventaAccionRepository->delete($id);
+
+            Flash::success('Venta Accion deleted successfully.');
 
             return redirect(route('ventaAccions.index'));
         }
-
-        $this->ventaAccionRepository->delete($id);
-
-        Flash::success('Venta Accion deleted successfully.');
-
-        return redirect(route('ventaAccions.index'));
-    }
+        else{
+            abort(404);
+        }
 }

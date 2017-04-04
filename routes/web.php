@@ -42,6 +42,7 @@ Route::get('/home', 'HomeController@index');
 Route::get('/', 'HomeController@index');
 
 Route::get('/venta', ['as' => 'nuevaVenta', 'uses' => 'VentaAccionController@create']);
+Route::get('/venta/ver/{id}', ['as' => 'verVenta', 'uses' => 'VentaAccionController@view']);
 Route::resource('/ventaAccions', 'VentaAccionController');
 
 Route::get('/info/get_provincias/{cardinal}', ['as' => 'info.get_cities','uses' => 'InformationController@get_cities']);

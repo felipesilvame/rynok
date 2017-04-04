@@ -1,4 +1,4 @@
-<footer id="footer">
+<footer id="footer" class="hidden-print">
 	<section>
 		<h2>Videos</h2>
 		<p>También te invitamos a conocer más sobre el mercado bursátil en nuestro canal de YouTube, donde tendremos grabaciones de nuestras charlas ¡y más!.</p>

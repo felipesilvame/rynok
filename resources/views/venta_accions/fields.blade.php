@@ -85,7 +85,7 @@
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Guardar', ['class' => 'button special btn-primary']) !!}
-    <a href="{!! route('ventaAccions.index') !!}" class="btn btn-lg btn-default">Cancelar</a>
+    <a href="{!! url('/') !!}" class="btn btn-lg btn-default">Cancelar</a>
 </div>
 {!! Html::script('js/jquery.rut.min.js') !!}
 <script>
@@ -104,10 +104,10 @@ $(document).ready(function(){
 				$('#comprador_region').val(data.region);
 				var $provincias = $('select[name=comprador_provincia]');
 				$provincias.empty();
-				$provincias.append('<option value="'+data.provincia+'">(Provisional)</option>');
+				$provincias.append('<option value="'+data.provincia+'">'+data.provincia_nombre+'</option>');
 				var $comunas = $('select[name=comprador_comuna]');
 				$comunas.empty();
-				$comunas.append('<option value="'+data.comuna+'">(Provisional 2)</option>');
+				$comunas.append('<option value="'+data.comuna+'">'+data.comuna_nombre+'</option>');
 			    //console.log('hay datos!');
 			}
     	});

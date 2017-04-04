@@ -24,7 +24,7 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-
+        setlocale(LC_ALL, 'es_ES');
         parent::boot();
     }
 

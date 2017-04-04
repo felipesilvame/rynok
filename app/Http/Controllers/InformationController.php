@@ -39,8 +39,12 @@ class InformationController extends Controller
 	}
 
 	public function get_info_rut(Request $request, $rut){
-		$Comprador = Comprador::whereNull('deleted_at')
-						->where('rut','LIKE',$rut)->first();
+		$Comprador = Comprador::whereNull('compradores.deleted_at')
+						->join('regiones','regiones.region_cardinal','=','compradores.region')
+						->join('provincias','provincias.id','=','compradores.provincia')
+						->join('comunas','comunas.id','=','compradores.comuna')
+						->select('compradores.*','regiones.region_nombre','provincias.provincia_nombre','comunas.comuna_nombre')
+						->where('compradores.rut','LIKE',$rut)->first();
 		if ($Comprador != null)
 			return $Comprador->makeHidden('acciones_compradas')->toJson();
 		else return response()->json([]);

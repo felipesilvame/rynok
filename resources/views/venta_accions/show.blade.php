@@ -1,19 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            Venta Accion
-        </h1>
-    </section>
-    <div class="content">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="row" style="padding-left: 20px">
+ <div id="wrapper">
+    <header id="header">
+        <h2>Ver Transacción</h2>
+    </header>
+    <div id="main">
+        <section id="content" class="main">
+        <div class="clearfix"></div>
+            <div class="content">
+                @include('flash::message')
+                <div class="row uniform">
                     @include('venta_accions.show_fields')
-                    <a href="{!! route('ventaAccions.index') !!}" class="btn btn-default">Back</a>
+                </div>
+                <div class="row uniform">
+                    <a href="{!! route('nuevaVenta') !!}" class=" button special hidden-print">Nueva venta</a>
+                    <a href="{!! url('/') !!}" class="btn btn-default btn-lg hidden-print">Volver</a>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
+</div>
 @endsection
+
