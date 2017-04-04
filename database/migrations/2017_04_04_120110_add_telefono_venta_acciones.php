@@ -13,7 +13,7 @@ class AddTelefonoVentaAcciones extends Migration
      */
     public function up()
     {
-        Schema::table('venta_Acciones', function (Blueprint $table) {
+        Schema::table('venta_acciones', function (Blueprint $table) {
             $table->string('comprador_telefono')->nullable()->after('comprador_email');
         });
     }
