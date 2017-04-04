@@ -15,7 +15,7 @@ class RemoveProductoIdFromVentaAcciones extends Migration
     {
         Schema::table('venta_acciones', function (Blueprint $table) {
             $table->dropForeign(['producto_id']);
-            $table->dropColumn('productoid');
+            $table->dropColumn('producto_id');
         });
     }
 
