@@ -41,6 +41,8 @@ Route::post('/perfil/guardar', ['as' => 'perfil.store', 'uses' => 'ProfileContro
 Route::get('/home', 'HomeController@index');
 Route::get('/', 'HomeController@index');
 
+
+Route::get('/api/info_empresas',['as' => 'infoEmpresas', 'uses' => 'InformationController@get_info_empresas']);
 Route::get('/venta', ['as' => 'nuevaVenta', 'uses' => 'VentaAccionController@create']);
 Route::get('/venta/ver/{id}', ['as' => 'verVenta', 'uses' => 'VentaAccionController@view']);
 Route::resource('/ventaAccions', 'VentaAccionController');

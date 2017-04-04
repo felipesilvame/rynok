@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Provincia;
 use App\Models\Comuna;
+use App\Models\Empresa;
 use App\Http\Requests;
 use App\Models\Comprador;
 
@@ -36,6 +37,11 @@ class InformationController extends Controller
 			->select('comunas.id as id','comunas.comuna_nombre')
 			->get();
 		return $Comunas->toJson();
+	}
+
+	public function get_info_empresas(Request $request){
+		$Empresas = Empresa::whereNull('deleted_at')->select('nombre','acciones_disponibles_p_vender')->get();
+		return $Empresas->toJson();
 	}
 
 	public function get_info_rut(Request $request, $rut){
