@@ -16,7 +16,9 @@
     <!-- Styles -->
     <!--<link href="{{ asset('css/app.css') }}" rel="stylesheet">-->
     @include('assets.css')
-
+    <!-- Scripts -->
+    <!--<script src="{{ asset('js/app.js') }}"></script>-->
+    @include('assets.js')
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
@@ -32,8 +34,5 @@
         @include('layouts.footer')
     </div>
 
-    <!-- Scripts -->
-    <!--<script src="{{ asset('js/app.js') }}"></script>-->
-    @include('assets.js')
 </body>
 </html>

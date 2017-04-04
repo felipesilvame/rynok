@@ -9,7 +9,7 @@ class AccionesComprador extends Model
 {
 	use SoftDeletes;
 
-	public $table = 'comprador_acciones_empresa';
+	public $table = 'comprador_acciones_empresas';
 
 	protected $dates = ['deleted_at'];
     protected $primaryKey = 'id';

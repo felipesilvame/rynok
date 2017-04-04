@@ -22,6 +22,10 @@ class Comprador extends Model
         'apellido_materno',
         'email',
         'telefono',
+        'direccion',
+        'comuna',
+        'provincia',
+        'region',
         'acciones_compradas'
     ];
 
@@ -37,7 +41,11 @@ class Comprador extends Model
         'apellido_materno' => 'string',
         'email' => 'string',
         'telefono' => 'string',
-        'acciones_compradas' => 'integer'
+        'acciones_compradas' => 'integer',
+        'direccion' => 'string',
+        'comuna' => 'integer',
+        'provincia' => 'integer',
+        'region' => 'string',
     ];
 
     /**
@@ -64,5 +72,18 @@ class Comprador extends Model
     public function Compras()
     {
         return $this->hasMany(\App\Models\VentaAccion::class,'comprador_id','id');
+    }
+
+    public function Region()
+    {
+        return $this->belongsTo(\App\Models\Region::class,'region_cardinal','region_cardinal');
+    }
+
+    public function Provincia(){
+        return $this->belongsTo(\App\Models\Provincia::class,'provincia','id');
+    }
+
+    public function Comuna(){
+        return $this->belongsTo(\App\Models\Comuna::class,'comuna','id');
     }
 }
