@@ -107,6 +107,21 @@ class VentaAccionController extends AppBaseController
             if ($input['cantidad_acciones'] > 100) {
                     return Redirect::back()->withErrors(['Este comprador supera la cantidad máxima de acciones posibles']);
                 }
+                //actualiza los datos en caso de...
+                $Comprador->nombre = $input['comprador_nombre'];
+                $Comprador->apellido_paterno = $input['comprador_apellido_p'];
+                $Comprador->apellido_materno = $input['comprador_apellido_m'];
+                $Comprador->email = $input['comprador_email'];
+                $Comprador->telefono = $input['comprador_telefono'];
+                $Comprador->direccion = $input['comprador_direccion'];
+                $Comprador->comuna = $input['comprador_comuna'];
+                $Comprador->provincia = $input['comprador_provincia'];
+                $Comprador->region = $input['comprador_region'];
+                $Comprador->save();
+            $AccionesComprador = AccionesComprador::firstOrNew([
+                'empresa_id' => $input['empresa_id'],
+                'comprador_id' => $Comprador->id
+                ]);
         }
 
         //verificar que la empresa tenga las suficientes acciones para vender

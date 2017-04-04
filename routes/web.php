@@ -41,6 +41,7 @@ Route::post('/perfil/guardar', ['as' => 'perfil.store', 'uses' => 'ProfileContro
 Route::get('/home', 'HomeController@index');
 Route::get('/', 'HomeController@index');
 
+Route::get('/venta', ['as' => 'nuevaVenta', 'uses' => 'VentaAccionController@create']);
 Route::resource('/ventaAccions', 'VentaAccionController');
 
 Route::get('/info/get_provincias/{cardinal}', ['as' => 'info.get_cities','uses' => 'InformationController@get_cities']);

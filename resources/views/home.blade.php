@@ -20,7 +20,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $('#registro_venta').click(function(){
-            window.location.href = "{!! route('perfil') !!}";
+            window.location.href = "{!! route('nuevaVenta') !!}";
         });
         $('#ventas_dia').click(function(){
              window.location.href = "{!! route('perfil') !!}";
