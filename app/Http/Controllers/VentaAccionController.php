@@ -296,4 +296,5 @@ class VentaAccionController extends AppBaseController
         else{
             abort(404);
         }
+    }
 }

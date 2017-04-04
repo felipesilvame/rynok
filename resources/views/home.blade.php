@@ -15,6 +15,7 @@
             </ul>
             </div>
         </section>
+        @include('venta_empresas')
     </div>
 </div>
 <script type="text/javascript">
