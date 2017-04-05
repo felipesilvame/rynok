@@ -28,7 +28,7 @@ function reloadInfo(){
 					//<![CDATA[
 				    var tr = $('<tr/>').appendTo(tbody);
 				    tr.append('<td>' + item.nombre + '</td>');
-				    tr.append('<td>' + 500 - item.acciones_disponibles_p_vender + '</td>');
+				    tr.append('<td>' + (500 - parseInt(item.acciones_disponibles_p_vender)) + '</td>');
 				    tr.append('<td>' + item.acciones_disponibles_p_vender + '</td>');
 				    //]]>
 				})
