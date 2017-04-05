@@ -29,6 +29,7 @@ Route::post('password/reset', ['uses' => 'Auth\ResetPasswordController@reset']);
 Route::get('admin/crearEmpresa', ['as' => 'admin.crearEmpresa', 'uses' => 'AdminController@crearEmpresa']);
 Route::post('admin/crearEmpresa', ['as' => 'admin.storeEmpresa', 'uses' => 'AdminController@storeEmpresa']);
 Route::get('empresas', ['as' => 'admin.verEmpresas', 'uses' => 'AdminController@verEmpresas']);
+Route::get('empresas/eliminar/{id}', ['as' => 'admin.eliminarEmpresa', 'uses' => 'AdminController@eliminarEmpresa']);
 
 Route::get('admin/crearUsuario', ['as' => 'admin.crearUsuario', 'uses' => 'AdminController@crearUsuario']);
 Route::post('admin/crearUsuario', ['as' => 'admin.storeUsuario', 'uses' => 'AdminController@storeUsuario']);
@@ -50,3 +51,5 @@ Route::resource('/ventaAccions', 'VentaAccionController');
 Route::get('/info/get_provincias/{cardinal}', ['as' => 'info.get_cities','uses' => 'InformationController@get_cities']);
 Route::get('/info/get_comunas/{id}', ['as' => 'info.get_towns','uses' => 'InformationController@get_towns']);
 Route::get('/info/get_info_rut/{id}', ['as' => 'info.get_info_rut','uses' => 'InformationController@get_info_rut']);
+
+Route::get('/ventasDelDia', ['as' => 'venta.dia', 'uses' => 'SaleDayController@index']);

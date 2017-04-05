@@ -28,7 +28,7 @@
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Entrar</a></li>
                 @else
-                    @if(Auth::user()->perfil_id == 1)
+                    @if(Auth::user()->isAdmin())
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 Admin <span class="caret"></span>

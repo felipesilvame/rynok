@@ -60,7 +60,7 @@
 		<h3>Informacion de la Empresa</h3>
 	</section>
 	<div class="form-group col-sm-6">
-
+		{!! Form::hidden('vendedor_id', Auth::user()->id,['class' => 'form-control']) !!}
 		{!! Form::label('empresa_id','Empresa',['class' => 'control-label']) !!}
 		{!! Form::select('empresa_id', $Empresas, null, ['class' => 'form-control' ]) !!}
 	</div>

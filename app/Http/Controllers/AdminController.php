@@ -50,6 +50,17 @@ class AdminController extends Controller
 
     }
 
+    public function eliminarEmpresa(Request $request, $id){
+        if (Auth::user()->isAdmin()){
+            $empresa = Empresa::findOrFail($id)->delete();
+            Flash::message('Empresa eliminada satisfactoriamente');
+            return redirect(route('admin.verEmpresas'));
+        }
+        else{
+            abort(403, 'No autorizado');
+        }
+    }
+
     public function verEmpresas(Request $request)
     {
     	if (Auth::user()->isAdmin()){

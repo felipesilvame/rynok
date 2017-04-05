@@ -14,7 +14,7 @@
 					<td>{!! $empresa->nombre !!}</td>
 					<td>{!! $empresa->email !!}</td>
 					<td>{!! $empresa->acciones_disponibles_p_vender !!}</td>
-					<td></td>
+					<td><a class="btn btn-danger btn-sm" href="{!! route('admin.eliminarEmpresa', null) !!}/{!! $empresa->id !!}"><i class="fa fa-times"></i></a></td>
 				</tr>
 			@endforeach
 		</tbody>

@@ -24,7 +24,7 @@
             window.location.href = "{!! route('nuevaVenta') !!}";
         });
         $('#ventas_dia').click(function(){
-             window.location.href = "{!! route('perfil') !!}";
+             window.location.href = "{!! route('venta.dia') !!}";
         });
     });
 </script>

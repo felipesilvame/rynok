@@ -71,6 +71,9 @@ class VentaAccionController extends AppBaseController
     public function store(CreateVentaAccionRequest $request)
     {
         $input = $request->all();
+        //dejarlo como positivo, por si acaso
+         if ((integer)$input['cantidad_acciones'] < 0)
+            return Redirect::back()->withErrors(['La cantidad de acciones no puede ser menor a 0']);
         //validate info from comprador
         Validator::make($input, [
             'comprador_nombre' => 'required',
@@ -137,7 +140,7 @@ class VentaAccionController extends AppBaseController
 
         //TODO LISTO! las acciones no superan el limite por persona, y la empresa tiene las acciones para realizar la venta
         //setear el valor por accion y el valor mas comision, por si algun chistosito quiere modificar el javascript
-        $acciones = $input['cantidad_acciones'];
+        $acciones = abs((integer)$input['cantidad_acciones']);
         $comision = 2.0/100.0;
         $valor_total = (integer) $acciones * 1000;
         $valor_con_comision = (integer) round($valor_total + $valor_total*$comision);

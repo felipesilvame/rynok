@@ -17,6 +17,7 @@ class VentaAccion extends Model
 
     public $fillable = [
         'empresa_id',
+        'vendedor_id',
         'comprador_id',
         'comprador_rut',
         'comprador_nombre',
@@ -36,6 +37,7 @@ class VentaAccion extends Model
      */
     protected $casts = [
         'empresa_id' => 'integer',
+        'vendedor_id' => 'integer',
         'comprador_id' => 'integer',
         'comprador_rut' => 'string',
         'comprador_nombre' => 'string',
@@ -55,6 +57,7 @@ class VentaAccion extends Model
      */
     public static $rules = [
         'empresa_id' => 'required|exists:empresas,id',
+        'vendedor_id' => 'required|exists:users,id',
         'comprador_rut' => 'required',
         'cantidad_acciones' => 'required|numeric',
         'valor_total' => 'required',
@@ -69,5 +72,10 @@ class VentaAccion extends Model
     public function Comprador()
     {
         return $this->belongsTo(\App\Models\Comprador::class,'comprador_id','id');
+    }
+
+    public function Vendedor()
+    {
+        return $this->belongsTo(\App\User::class,'vendedor_id','id');
     }
 }
